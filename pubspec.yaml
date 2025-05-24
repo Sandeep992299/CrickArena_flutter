@@ -1,0 +1,44 @@
+name: crickarena
+description: "A new Flutter project."
+
+publish_to: 'none' 
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^3.13.1
+  firebase_auth: ^5.5.4
+  firebase_storage: ^12.4.6
+  connectivity_plus: ^5.0.2
+  battery_plus: ^4.0.2
+  geolocator: ^10.0.1
+  image_picker: ^1.0.4
+
+  
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  provider: ^6.1.5
+
+ 
+  flutter_lints: ^5.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/data/products.json
+
+
+ 

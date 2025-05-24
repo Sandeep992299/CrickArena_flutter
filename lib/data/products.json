@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "name": "Kookaburra Kahuna",
+    "category": "Bats",
+    "price": 47000,
+    "image": "assets/images/kahuna51.png"
+  },
+  {
+    "id": "2",
+    "name": "Kookaburra Aura",
+    "category": "Bats",
+    "price": 53000,
+    "image": "assets/images/bats/aura.png"
+  }
+]

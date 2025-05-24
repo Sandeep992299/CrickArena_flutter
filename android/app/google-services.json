@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873824206863",
+    "project_id": "crickarena-c713c",
+    "storage_bucket": "crickarena-c713c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873824206863:android:5c445c427cfd13f6d0e37a",
+        "android_client_info": {
+          "package_name": "com.sandeepme.crickarena"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjkPm6K4swSJ2xaBqBJ39RSlxsOXCrm5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

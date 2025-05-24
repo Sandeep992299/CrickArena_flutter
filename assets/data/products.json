@@ -1,0 +1,194 @@
+[
+  {
+    "id": "1",
+    "name": "Kookaburra Kahuna",
+    "category": "Bats",
+    "price": 47000,
+    "image": "assets/images/kahuna51.png"
+  },
+  {
+    "id": "2",
+    "name": "Kookaburra Aura",
+    "category": "Bats",
+    "price": 53000,
+    "image": "assets/images/aura.png"
+  },
+  {
+    "id": "3",
+    "name": "Kookaburra Beast 2.1",
+    "category": "Bats",
+    "price": 57000,
+    "image": "assets/images/beast21.png"
+  },
+  {
+    "id": "4",
+    "name": "Kookaburra Beast 3.1",
+    "category": "Bats",
+    "price": 52000,
+    "image": "assets/images/beast31.png"
+  },
+
+  {
+    "id": "ball1",  
+    "name": "SG Test Ball",
+    "category": "Balls",
+    "price": 1500,
+    "image": "assets/images/balls.jpg"
+  },
+  {
+    "id": "ball2",  
+    "name": "HRS Test Ball",
+    "category": "Balls",
+    "price": 1700,
+    "image": "assets/images/HRS_ball.jpg"
+  },
+  {
+    "id": "ball3",  
+    "name": "Kookaburra Test Ball",
+    "category": "Balls",
+    "price": 2500,
+    "image": "assets/images/kooka_ball.jpg"
+  },
+  {
+    "id": "ball4",  
+    "name": "Kookaburra White Ball",
+    "category": "Balls",
+    "price": 2700,
+    "image": "assets/images/kooka_white_ball.jpg"
+  },
+  {
+    "id": "ball5",  
+    "name": "Kookaburra Pink Ball",
+    "category": "Balls",
+    "price": 3000,
+    "image": "assets/images/kooka_pink_ball.jpg"
+  },
+  {
+    "id": "ball6",  
+    "name": "Crown Test Ball",
+    "category": "Balls",
+    "price": 2300,
+    "image": "assets/images/crown_ball.jpg"
+  },
+  {
+    "id": "ball7",  
+    "name": "Crown White Ball",
+    "category": "Balls",
+    "price": 2700,
+    "image": "assets/images/Crown_White_ball.jpg"
+  },
+  {
+    "id": "ball8",  
+    "name": "Practice Ball",
+    "category": "Balls",
+    "price": 1100,
+    "image": "assets/images/practice_balls.jpg"
+  },
+  {
+    "id": "ball9",  
+    "name": "Atlas Cricket Ball",
+    "category": "Balls",
+    "price": 400,
+    "image": "assets/images/Atlas_ball.jpg"
+  },
+
+  {
+    "id": "gear1",
+    "name": "Batting Gloves",
+    "category": "Gear",
+    "price": 3000,
+    "image": "assets/images/gear.jpg"
+  },
+  {
+    "id": "helmet1",
+    "name": "DSC Helmet",
+    "category": "Gear",
+    "price":12500,
+    "image": "assets/images/DSC_hel.jpg"
+  },
+  {
+    "id": "helmet2",
+    "name": "Grey-Nichols Helmet",
+    "category": "Gear",
+    "price": 15500,
+    "image": "assets/images/grey_hel.jpg"
+  },
+  {
+    "id": "helmet3",
+    "name": "Masuri Helmet",
+    "category": "Gear",
+    "price": 13000,
+    "image": "assets/images/masuri_hel.jpg"
+  },
+  {
+    "id": "helmet4",
+    "name": "SG Helmet",
+    "category": "Gear",
+    "price": 10000,
+    "image": "assets/images/sg_hel.jpg"
+  },
+  {
+    "id": "pads1",
+    "name": "CA keeping Pads",
+    "category": "Gear",
+    "price": 15000,
+    "image": "assets/images/ca_keeper.jpg"
+  },
+  {
+    "id": "pads2",
+    "name": "CA Batting Pads",
+    "category": "Gear",
+    "price": 13000,
+    "image": "assets/images/CA.jpg"
+  },
+  {
+    "id": "pads3",
+    "name": "DSC Batting Pads",
+    "category": "Gear",
+    "price": 14500,
+    "image": "assets/images/DSC.jpg"
+  },
+  {
+    "id": "pads4",
+    "name": "GM 808 Pads",
+    "category": "Gear",
+    "price": 15500,
+    "image": "assets/images/GM_808.jpg"
+  },
+  {
+    "id": "pads5",
+    "name": "Grey-Nichols Batting Pads",
+    "category": "Gear",
+    "price": 13000,
+    "image": "assets/images/grey_pads.jpg"
+  },
+  {
+    "id": "pads6",
+    "name": "Kookaburra Batting Pads",
+    "category": "Gear",
+    "price": 14000,
+    "image": "assets/images/kooka_pads.jpg"
+  },
+  {
+    "id": "pads7",
+    "name": "SF Batting Pads",
+    "category": "Gear",
+    "price": 15000,
+    "image": "assets/images/sf_pads.jpg"
+  },
+  {
+    "id": "pads8",
+    "name": "SG Batting Pads",
+    "category": "Gear",
+    "price": 13500,
+    "image": "assets/images/SG.jpg"
+  },
+
+  {
+    "id": "promo1",
+    "name": "Cricket Starter Bundle",
+    "category": "Promotions",
+    "price": 55000,
+    "image": "assets/images/promotions/starter_bundle.png"
+  }
+]
