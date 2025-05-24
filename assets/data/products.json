@@ -92,11 +92,12 @@
     "image": "assets/images/Atlas_ball.jpg"
   },
 
+
   {
-    "id": "gear1",
-    "name": "Batting Gloves",
+    "id": "helmet",
+    "name": "Normal Helmet",
     "category": "Gear",
-    "price": 3000,
+    "price": 10000,
     "image": "assets/images/gear.jpg"
   },
   {
@@ -183,12 +184,84 @@
     "price": 13500,
     "image": "assets/images/SG.jpg"
   },
+  {
+    "id": "gloves1",
+    "name": "CA Gloves",
+    "category": "Gear",
+    "price": 11000,
+    "image": "assets/images/CA_glove.jpg"
+  },
+  {
+    "id": "gloves2",
+    "name": "DSC Gloves",
+    "category": "Gear",
+    "price": 11500,
+    "image": "assets/images/DSC_glove.jpg"
+  },
+  {
+    "id": "gloves3",
+    "name": "GM 303 Gloves",
+    "category": "Gear",
+    "price": 12000,
+    "image": "assets/images/GM_303_glove.jpg"
+  },
+  {
+    "id": "gloves4",
+    "name": "Grey-Nichols Gloves",
+    "category": "Gear",
+    "price": 13500,
+    "image": "assets/images/grey_glove.jpg"
+  },
+  {
+    "id": "gloves5",
+    "name": "Kookaburra Khuna 4.1 Gloves",
+    "category": "Gear",
+    "price": 14000,
+    "image": "assets/images/kjuna4.1_glove.jpg"
+  },
+  {
+    "id": "gloves6",
+    "name": "Kookaburra Gloves",
+    "category": "Gear",
+    "price": 13500,
+    "image": "assets/images/kooka_glove.jpg"
+  },
+  {
+    "id": "gloves7",
+    "name": "SF Gloves",
+    "category": "Gear",
+    "price": 12000,
+    "image": "assets/images/SF_glove.jpg"
+  },
+  {
+    "id": "gloves8",
+    "name": "SG Gloves",
+    "category": "Gear",
+    "price": 12500,
+    "image": "assets/images/SG_glove.jpg"
+  },
+  {
+    "id": "gloves9",
+    "name": "SS Gloves",
+    "category": "Gear",
+    "price": 13000,
+    "image": "assets/images/SS_glove.jpg"
+  },
+  {
+    "id": "gloves10",
+    "name": "Topper Gloves",
+    "category": "Gear",
+    "price": 10500,
+    "image": "assets/images/topper_glove.jpg"
+  },
+
+
 
   {
     "id": "promo1",
     "name": "Cricket Starter Bundle",
     "category": "Promotions",
-    "price": 55000,
-    "image": "assets/images/promotions/starter_bundle.png"
+    "price": 105000,
+    "image": "assets/images/promo1.jpg"
   }
 ]
