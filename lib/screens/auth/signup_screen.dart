@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -65,21 +66,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      if (_profileImage != null) {
-        _uploadedImageUrl = await _uploadImageToFirebase(_profileImage!);
-      }
-
+      // Create user
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
 
-      // Optionally, update the user's display name and photo URL
-      await userCredential.user?.updateDisplayName(_nameController.text);
+      // Upload profile image
+      if (_profileImage != null) {
+        _uploadedImageUrl = await _uploadImageToFirebase(_profileImage!);
+      }
+
+      // Update profile
+      await userCredential.user?.updateDisplayName(_nameController.text.trim());
       if (_uploadedImageUrl != null) {
         await userCredential.user?.updatePhotoURL(_uploadedImageUrl);
       }
+
+      // Save to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set({
+            'name': _nameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'photoURL': _uploadedImageUrl,
+            'createdAt': Timestamp.now(),
+          });
 
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
@@ -123,6 +137,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _profileImage != null
                             ? FileImage(_profileImage!)
                             : null,
+                    child:
+                        _profileImage == null
+                            ? const Icon(
+                              Icons.person,
+                              size: 40,
+                              color: Colors.grey,
+                            )
+                            : null,
                   ),
                   const SizedBox(width: 20),
                   Column(
@@ -160,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       });
                     },
                   ),
-                  const Text('I Understood the'),
+                  const Text('I understood the'),
                   TextButton(
                     onPressed: () {},
                     child: const Text(

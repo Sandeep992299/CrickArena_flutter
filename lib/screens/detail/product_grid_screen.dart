@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/product.dart';
 import '../../widgets/product_card.dart';
+import '../detail/category_products_screen.dart';
 
 class ProductGridScreen extends StatefulWidget {
-  const ProductGridScreen({super.key});
+  final String profileImage;
+
+  const ProductGridScreen({super.key, required this.profileImage});
 
   @override
   State<ProductGridScreen> createState() => _ProductGridScreenState();
@@ -77,16 +80,14 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
       padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Text(
+        children: [
+          const Text(
             "Welcome Back 👋",
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           CircleAvatar(
             radius: 25,
-            backgroundImage: AssetImage(
-              'assets/profile.jpg',
-            ), // Add a profile image asset
+            backgroundImage: AssetImage(widget.profileImage),
           ),
         ],
       ),
@@ -94,11 +95,11 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
   }
 
   Widget _buildCategorySection() {
-    final categories = [
-      {'icon': Icons.fastfood, 'label': 'Food'},
-      {'icon': Icons.local_drink, 'label': 'Drinks'},
-      {'icon': Icons.cake, 'label': 'Dessert'},
-      {'icon': Icons.eco, 'label': 'Vegan'},
+    final List<Map<String, dynamic>> categories = [
+      {'icon': Icons.sports_cricket, 'label': 'Bats'},
+      {'icon': Icons.sports_baseball, 'label': 'Balls'},
+      {'icon': Icons.sports_mma, 'label': 'Gear'},
+      {'icon': Icons.local_offer, 'label': 'Promotions'},
     ];
 
     return SizedBox(
@@ -109,22 +110,42 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final item = categories[index];
-          return Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    item['icon'] as IconData,
-                    size: 28,
-                    color: Colors.black87,
-                  ),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => CategoryProductsScreen(category: item['label']!),
                 ),
-                const SizedBox(height: 5),
-                Text(item['label']! as String, style: TextStyle(fontSize: 14)),
-              ],
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 12),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.black, width: 1),
+                    ),
+                    child: CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        item['icon'] as IconData,
+                        size: 28,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    item['label'].toString(),
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
             ),
           );
         },

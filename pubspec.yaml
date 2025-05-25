@@ -20,6 +20,9 @@ dependencies:
   battery_plus: ^4.0.2
   geolocator: ^10.0.1
   image_picker: ^1.0.4
+  google_sign_in: ^6.3.0
+  flutter_facebook_auth: ^7.1.2
+  cloud_firestore: ^5.6.8
 
   
   cupertino_icons: ^1.0.8

@@ -1,27 +1,27 @@
 [
   {
-    "id": "1",
+    "id": "bat1",
     "name": "Kookaburra Kahuna",
     "category": "Bats",
     "price": 47000,
     "image": "assets/images/kahuna51.png"
   },
   {
-    "id": "2",
+    "id": "bat2",
     "name": "Kookaburra Aura",
     "category": "Bats",
     "price": 53000,
     "image": "assets/images/aura.png"
   },
   {
-    "id": "3",
+    "id": "bat3",
     "name": "Kookaburra Beast 2.1",
     "category": "Bats",
     "price": 57000,
     "image": "assets/images/beast21.png"
   },
   {
-    "id": "4",
+    "id": "bat4",
     "name": "Kookaburra Beast 3.1",
     "category": "Bats",
     "price": 52000,
@@ -217,7 +217,7 @@
     "name": "Kookaburra Khuna 4.1 Gloves",
     "category": "Gear",
     "price": 14000,
-    "image": "assets/images/kjuna4.1_glove.jpg"
+    "image": "assets/images/khuna4.1_glove.jpg"
   },
   {
     "id": "gloves6",
