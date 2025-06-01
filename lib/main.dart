@@ -1,3 +1,4 @@
+import 'package:crickarena/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart'; // NEW
@@ -23,6 +24,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => SignUpProvider()),
         // Add other providers like AuthProvider here if needed
       ],
       child: const CrickArenaApp(),

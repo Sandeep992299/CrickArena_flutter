@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,6 +15,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _contactController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _agreedToTerms = false;
@@ -27,7 +27,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
     if (image != null) {
       setState(() {
         _profileImage = File(image.path);
@@ -66,31 +65,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      // Create user
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
 
-      // Upload profile image
       if (_profileImage != null) {
         _uploadedImageUrl = await _uploadImageToFirebase(_profileImage!);
       }
 
-      // Update profile
+      // Update Firebase Auth profile
       await userCredential.user?.updateDisplayName(_nameController.text.trim());
       if (_uploadedImageUrl != null) {
         await userCredential.user?.updatePhotoURL(_uploadedImageUrl);
       }
 
-      // Save to Firestore
+      // Save data to Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid)
           .set({
-            'name': _nameController.text.trim(),
+            'username': _nameController.text.trim(),
             'email': _emailController.text.trim(),
+            'contact': _contactController.text.trim(),
             'photoURL': _uploadedImageUrl,
             'createdAt': Timestamp.now(),
           });
@@ -101,6 +99,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text('Signup failed: ${e.toString()}')));
     }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _contactController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -161,6 +169,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 20),
               _buildTextField(label: 'Name', controller: _nameController),
               _buildTextField(label: 'Email', controller: _emailController),
+              _buildTextField(
+                label: 'Contact Number',
+                controller: _contactController,
+              ),
               _buildTextField(
                 label: 'Password',
                 controller: _passwordController,
