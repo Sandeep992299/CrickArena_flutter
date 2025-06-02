@@ -16,7 +16,13 @@ class CategoryProductsScreen extends StatefulWidget {
 class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   List<Product> _categoryProducts = [];
   List<Product> _filteredProducts = [];
+
   final TextEditingController _searchController = TextEditingController();
+
+  String _selectedSort = 'None';
+  String _selectedBrand = 'All';
+
+  List<String> _availableBrands = [];
 
   @override
   void initState() {
@@ -41,26 +47,51 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             )
             .toList();
 
+    final brands =
+        filtered
+            .map((e) => e.brand ?? '')
+            .toSet()
+            .where((b) => b.isNotEmpty)
+            .toList();
+    brands.sort();
+
     setState(() {
       _categoryProducts = filtered;
       _filteredProducts = filtered;
+      _availableBrands = ['All', ...brands];
     });
   }
 
-  void _filterProducts(String query) {
-    if (query.isEmpty) {
-      setState(() => _filteredProducts = _categoryProducts);
-    } else {
-      setState(() {
-        _filteredProducts =
-            _categoryProducts
-                .where(
-                  (product) =>
-                      product.name.toLowerCase().contains(query.toLowerCase()),
-                )
-                .toList();
-      });
+  void _applyFilters() {
+    List<Product> result = List.from(_categoryProducts);
+
+    // Search filter
+    final query = _searchController.text.toLowerCase();
+    if (query.isNotEmpty) {
+      result =
+          result.where((p) => p.name.toLowerCase().contains(query)).toList();
     }
+
+    // Brand filter
+    if (_selectedBrand != 'All') {
+      result =
+          result
+              .where(
+                (p) =>
+                    (p.brand ?? '').toLowerCase() ==
+                    _selectedBrand.toLowerCase(),
+              )
+              .toList();
+    }
+
+    // Sort
+    if (_selectedSort == 'Price: Low → High') {
+      result.sort((a, b) => a.price.compareTo(b.price));
+    } else if (_selectedSort == 'Price: High → Low') {
+      result.sort((a, b) => b.price.compareTo(a.price));
+    }
+
+    setState(() => _filteredProducts = result);
   }
 
   @override
@@ -75,10 +106,10 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
         children: [
           // 🔍 Search Bar
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
             child: TextField(
               controller: _searchController,
-              onChanged: _filterProducts,
+              onChanged: (_) => _applyFilters(),
               decoration: InputDecoration(
                 hintText: 'Search ${widget.category}...',
                 prefixIcon: const Icon(Icons.search),
@@ -88,7 +119,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                           icon: const Icon(Icons.clear),
                           onPressed: () {
                             _searchController.clear();
-                            _filterProducts('');
+                            _applyFilters();
                           },
                         )
                         : null,
@@ -106,11 +137,76 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             ),
           ),
 
+          // 🔽 Dropdown Filters
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Row(
+              children: [
+                // Sort Dropdown
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedSort,
+                    onChanged: (val) {
+                      setState(() => _selectedSort = val ?? 'None');
+                      _applyFilters();
+                    },
+                    items:
+                        ['None', 'Price: Low → High', 'Price: High → Low']
+                            .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)),
+                            )
+                            .toList(),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      labelText: "Sort by",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                // Brand Dropdown
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedBrand,
+                    onChanged: (val) {
+                      setState(() => _selectedBrand = val ?? 'All');
+                      _applyFilters();
+                    },
+                    items:
+                        _availableBrands
+                            .map(
+                              (b) => DropdownMenuItem(value: b, child: Text(b)),
+                            )
+                            .toList(),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      labelText: "Brand",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           // 🧱 Product Grid
           Expanded(
             child:
                 _filteredProducts.isEmpty
-                    ? const Center(child: Text('No products found.'))
+                    ? const Center(
+                      child: Text('No products match your filters.'),
+                    )
                     : GridView.builder(
                       padding: const EdgeInsets.all(12),
                       itemCount: _filteredProducts.length,

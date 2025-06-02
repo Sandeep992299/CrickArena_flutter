@@ -34,6 +34,17 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateQuantity(String productId, int newQuantity) {
+    if (_items.containsKey(productId)) {
+      _items.update(
+        productId,
+        (existing) =>
+            CartItem(product: existing.product, quantity: newQuantity),
+      );
+      notifyListeners();
+    }
+  }
+
   void removeItem(String productId) {
     _items.remove(productId);
     notifyListeners();
