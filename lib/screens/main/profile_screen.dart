@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -35,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _nameController = TextEditingController(text: user?.displayName ?? '');
     _emailController = TextEditingController(text: user?.email ?? '');
     _contactController = TextEditingController();
-
     _loadUserProfile();
   }
 
@@ -47,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  // Load contact and location from Firestore on init
   Future<void> _loadUserProfile() async {
     final user = _auth.currentUser;
     if (user == null) return;
@@ -80,7 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     LocationPermission permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      // Handle permission denied (optional)
       return;
     }
 
@@ -174,7 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
       await user.updateDisplayName(_nameController.text);
 
-      // Prepare data to save in Firestore
       final userData = {
         'contact': _contactController.text,
         'location':
@@ -182,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? {'latitude': _latitude, 'longitude': _longitude}
                 : null,
       };
-      // Remove null values
+
       userData.removeWhere((key, value) => value == null);
 
       await _firestore
@@ -271,6 +269,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
+
+            if (_latitude != null && _longitude != null) ...[
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 150,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_latitude!, _longitude!),
+                      zoom: 14,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId("preview"),
+                        position: LatLng(_latitude!, _longitude!),
+                      ),
+                    },
+                    myLocationEnabled: false,
+                    zoomGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    tiltGesturesEnabled: false,
+                    rotateGesturesEnabled: false,
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                      Factory<OneSequenceGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
+                    },
+                  ),
+                ),
+              ),
+            ],
+
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: _saveProfile,

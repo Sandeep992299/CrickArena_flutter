@@ -16,6 +16,8 @@ class ProductGridScreen extends StatefulWidget {
 
 class _ProductGridScreenState extends State<ProductGridScreen> {
   List<Product> _products = [];
+  List<Product> _filteredProducts = [];
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -28,9 +30,28 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
       'assets/data/products.json',
     );
     final List<dynamic> data = json.decode(response);
+    final loadedProducts = data.map((item) => Product.fromJson(item)).toList();
+
     setState(() {
-      _products = data.map((item) => Product.fromJson(item)).toList();
+      _products = loadedProducts;
+      _filteredProducts = loadedProducts;
     });
+  }
+
+  void _filterProducts(String query) {
+    if (query.isEmpty) {
+      setState(() => _filteredProducts = _products);
+    } else {
+      setState(() {
+        _filteredProducts =
+            _products
+                .where(
+                  (product) =>
+                      product.name.toLowerCase().contains(query.toLowerCase()),
+                )
+                .toList();
+      });
+    }
   }
 
   @override
@@ -77,17 +98,53 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
           bottomRight: Radius.circular(40),
         ),
       ),
-      padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Welcome Back 👋",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          // Welcome and profile
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Welcome Back 👋",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage('assets/images/guy.jpg'),
+              ),
+            ],
           ),
-          CircleAvatar(
-            radius: 25,
-            backgroundImage: AssetImage(widget.profileImage),
+          const SizedBox(height: 16),
+          // Search Bar
+          TextField(
+            controller: _searchController,
+            onChanged: _filterProducts,
+            decoration: InputDecoration(
+              hintText: 'Search products...',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon:
+                  _searchController.text.isNotEmpty
+                      ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          _filterProducts('');
+                        },
+                      )
+                      : null,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 10,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none,
+              ),
+            ),
           ),
         ],
       ),
@@ -158,14 +215,14 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: _products.length,
+      itemCount: _filteredProducts.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 4,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemBuilder: (ctx, i) => ProductCard(product: _products[i]),
+      itemBuilder: (ctx, i) => ProductCard(product: _filteredProducts[i]),
     );
   }
 }
