@@ -1,3 +1,5 @@
+// ... Keep all your imports and class structure the same
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,7 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  // Load contact and location from Firestore on init
   Future<void> _loadUserProfile() async {
     final user = _auth.currentUser;
     if (user == null) return;
@@ -80,7 +81,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     LocationPermission permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      // Handle permission denied (optional)
       return;
     }
 
@@ -174,7 +174,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
       await user.updateDisplayName(_nameController.text);
 
-      // Prepare data to save in Firestore
       final userData = {
         'contact': _contactController.text,
         'location':
@@ -182,7 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? {'latitude': _latitude, 'longitude': _longitude}
                 : null,
       };
-      // Remove null values
       userData.removeWhere((key, value) => value == null);
 
       await _firestore
@@ -271,6 +269,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
+            if (_latitude != null && _longitude != null)
+              Container(
+                height: 200,
+                margin: const EdgeInsets.only(top: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_latitude!, _longitude!),
+                      zoom: 14,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('selected-location'),
+                        position: LatLng(_latitude!, _longitude!),
+                      ),
+                    },
+                    zoomControlsEnabled: false,
+                    onMapCreated: (controller) {},
+                  ),
+                ),
+              ),
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: _saveProfile,

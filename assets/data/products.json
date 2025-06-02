@@ -222,6 +222,7 @@
     "id": "ball1",  
     "name": "SG Test Ball",
     "category": "Balls",
+    "brand": "SG",
     "price": 1500,
     "image": "assets/images/balls.jpg"
   },
@@ -229,6 +230,7 @@
     "id": "ball2",  
     "name": "HRS Test Ball",
     "category": "Balls",
+    "brand": "HRS",
     "price": 1700,
     "image": "assets/images/HRS_ball.jpg"
   },
@@ -236,6 +238,7 @@
     "id": "ball3",  
     "name": "Kookaburra Test Ball",
     "category": "Balls",
+    "brand": "Kookaburra",
     "price": 2500,
     "image": "assets/images/kooka_ball.jpg"
   },
@@ -243,6 +246,7 @@
     "id": "ball4",  
     "name": "Kookaburra White Ball",
     "category": "Balls",
+    "brand": "Kookaburra",
     "price": 2700,
     "image": "assets/images/kooka_white_ball.jpg"
   },
@@ -250,6 +254,7 @@
     "id": "ball5",  
     "name": "Kookaburra Pink Ball",
     "category": "Balls",
+    "brand": "Kookaburra",
     "price": 3000,
     "image": "assets/images/kooka_pink_ball.jpg"
   },
@@ -257,6 +262,7 @@
     "id": "ball6",  
     "name": "Crown Test Ball",
     "category": "Balls",
+    "brand": "Crown",
     "price": 2300,
     "image": "assets/images/crown_ball.jpg"
   },
@@ -264,6 +270,7 @@
     "id": "ball7",  
     "name": "Crown White Ball",
     "category": "Balls",
+    "brand": "Crown",
     "price": 2700,
     "image": "assets/images/Crown_White_ball.jpg"
   },
@@ -278,6 +285,7 @@
     "id": "ball9",  
     "name": "Atlas Cricket Ball",
     "category": "Balls",
+    "brand": "Atlas",
     "price": 400,
     "image": "assets/images/Atlas_ball.jpg"
   },
@@ -294,6 +302,7 @@
     "id": "helmet1",
     "name": "DSC Helmet",
     "category": "Gear",
+    "brand": "DSC",
     "price":12500,
     "image": "assets/images/DSC_hel.jpg"
   },
@@ -301,6 +310,7 @@
     "id": "helmet2",
     "name": "Grey-Nichols Helmet",
     "category": "Gear",
+    "brand": "Grey-Nichols",
     "price": 15500,
     "image": "assets/images/grey_hel.jpg"
   },
@@ -308,6 +318,7 @@
     "id": "helmet3",
     "name": "Masuri Helmet",
     "category": "Gear",
+    "brand": "Masuri",
     "price": 13000,
     "image": "assets/images/masuri_hel.jpg"
   },
@@ -315,6 +326,7 @@
     "id": "helmet4",
     "name": "SG Helmet",
     "category": "Gear",
+    "brand": "SG",
     "price": 10000,
     "image": "assets/images/sg_hel.jpg"
   },
@@ -322,6 +334,7 @@
     "id": "pads1",
     "name": "CA keeping Pads",
     "category": "Gear",
+    "brand": "CA",
     "price": 15000,
     "image": "assets/images/ca_keeper.jpg"
   },
@@ -329,6 +342,7 @@
     "id": "pads2",
     "name": "CA Batting Pads",
     "category": "Gear",
+    "brand": "CA",
     "price": 13000,
     "image": "assets/images/CA.jpg"
   },
@@ -336,6 +350,7 @@
     "id": "pads3",
     "name": "DSC Batting Pads",
     "category": "Gear",
+    "brand": "DSC",
     "price": 14500,
     "image": "assets/images/DSC.jpg"
   },
@@ -343,6 +358,7 @@
     "id": "pads4",
     "name": "GM 808 Pads",
     "category": "Gear",
+    "brand": "GM",
     "price": 15500,
     "image": "assets/images/GM_808.jpg"
   },
@@ -350,6 +366,7 @@
     "id": "pads5",
     "name": "Grey-Nichols Batting Pads",
     "category": "Gear",
+    "brand": "Grey-Nichols",
     "price": 13000,
     "image": "assets/images/grey_pads.jpg"
   },
@@ -357,6 +374,7 @@
     "id": "pads6",
     "name": "Kookaburra Batting Pads",
     "category": "Gear",
+    "brand": "Kookaburra",
     "price": 14000,
     "image": "assets/images/kooka_pads.jpg"
   },
@@ -364,6 +382,7 @@
     "id": "pads7",
     "name": "SF Batting Pads",
     "category": "Gear",
+    "brand": "SF",
     "price": 15000,
     "image": "assets/images/sf_pads.jpg"
   },
@@ -371,6 +390,7 @@
     "id": "pads8",
     "name": "SG Batting Pads",
     "category": "Gear",
+    "brand": "SG",
     "price": 13500,
     "image": "assets/images/SG.jpg"
   },
@@ -378,6 +398,7 @@
     "id": "gloves1",
     "name": "CA Gloves",
     "category": "Gear",
+    "brand": "CA",
     "price": 11000,
     "image": "assets/images/CA_glove.jpg"
   },
@@ -385,6 +406,7 @@
     "id": "gloves2",
     "name": "DSC Gloves",
     "category": "Gear",
+    "brand": "DSC",
     "price": 11500,
     "image": "assets/images/DSC_glove.jpg"
   },
@@ -392,6 +414,7 @@
     "id": "gloves3",
     "name": "GM 303 Gloves",
     "category": "Gear",
+    "brand": "GM",
     "price": 12000,
     "image": "assets/images/GM_303_glove.jpg"
   },
@@ -399,6 +422,7 @@
     "id": "gloves4",
     "name": "Grey-Nichols Gloves",
     "category": "Gear",
+    "brand": "Grey-Nichols",
     "price": 13500,
     "image": "assets/images/grey_glove.jpg"
   },
@@ -406,6 +430,7 @@
     "id": "gloves5",
     "name": "Kookaburra Khuna 4.1 Gloves",
     "category": "Gear",
+    "brand": "Kookaburra",
     "price": 14000,
     "image": "assets/images/khuna4.1_glove.jpg"
   },
@@ -413,6 +438,7 @@
     "id": "gloves6",
     "name": "Kookaburra Gloves",
     "category": "Gear",
+    "brand": "Kookaburra",
     "price": 13500,
     "image": "assets/images/kooka_glove.jpg"
   },
@@ -420,6 +446,7 @@
     "id": "gloves7",
     "name": "SF Gloves",
     "category": "Gear",
+    "brand": "SF",
     "price": 12000,
     "image": "assets/images/SF_glove.jpg"
   },
@@ -427,6 +454,7 @@
     "id": "gloves8",
     "name": "SG Gloves",
     "category": "Gear",
+    "brand": "SG",
     "price": 12500,
     "image": "assets/images/SG_glove.jpg"
   },
@@ -434,6 +462,7 @@
     "id": "gloves9",
     "name": "SS Gloves",
     "category": "Gear",
+    "brand": "SS",
     "price": 13000,
     "image": "assets/images/SS_glove.jpg"
   },
@@ -441,6 +470,7 @@
     "id": "gloves10",
     "name": "Topper Gloves",
     "category": "Gear",
+    "brand": "Topper",
     "price": 10500,
     "image": "assets/images/topper_glove.jpg"
   },
