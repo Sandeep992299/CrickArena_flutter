@@ -27,6 +27,169 @@
     "price": 52000,
     "image": "assets/images/beast31.png"
   },
+  {
+    "id": "bat5",
+    "name": "Kookaburra Shadow",
+    "category": "Bats",
+    "price": 49000,
+    "image": "assets/images/kooka-shadow.jpg"
+  },
+  {
+    "id": "bat6",
+    "name": "BAS King",
+    "category": "Bats",
+    "price": 51000,
+    "image": "assets/images/bas-king.jpg"
+  },
+  {
+    "id": "bat7",
+    "name": "BAS Vampire",
+    "category": "Bats",
+    "price": 47000,
+    "image": "assets/images/bas-vampir.jpg"
+  },
+  {
+    "id": "bat8",
+    "name": "BAS Vampire Boss",
+    "category": "Bats",
+    "price": 54000,
+    "image": "assets/images/bass-vampire-boss.jpg"
+  },
+  {
+    "id": "bat9",
+    "name": "CA Gold 1000",
+    "category": "Bats",
+    "price": 49000,
+    "image": "assets/images/ca-gold1000.jpg"
+  },
+  {
+    "id": "bat10",
+    "name": "Grey-Nichols Scoop 1000",
+    "category": "Bats",
+    "price": 53000,
+    "image": "assets/images/gery-scoop-1000.jpg"
+  },
+  {
+    "id": "bat11",
+    "name": "Grey-Nichols Alpha 1.0",
+    "category": "Bats",
+    "price": 58000,
+    "image": "assets/images/grey-alpha-1.0.jpg"
+  },
+  {
+    "id": "bat12",
+    "name": "Grey-Nichols Belta",
+    "category": "Bats",
+    "price": 57000,
+    "image": "assets/images/grey-belta.jpg"
+  },
+  {
+    "id": "bat13",
+    "name": "Grey-Nichols Shockwave",
+    "category": "Bats",
+    "price": 59000,
+    "image": "assets/images/grey-shockwave.jpg"
+  },
+  {
+    "id": "bat14",
+    "name": "Grey-Nichols Ultra Ready 800",
+    "category": "Bats",
+    "price": 53000,
+    "image": "assets/images/grey-ultraready-800.png"
+  },
+  {
+    "id": "bat15",
+    "name": "GM Classic",
+    "category": "Bats",
+    "price": 58000,
+    "image": "assets/images/gm-classic.jpg"
+  },
+  {
+    "id": "bat16",
+    "name": "GM Diamond 101",
+    "category": "Bats",
+    "price": 59000,
+    "image": "assets/images/gm-diamond101.jpg"
+  },
+  {
+    "id": "bat17",
+    "name": "GM Diamond 707",
+    "category": "Bats",
+    "price": 57000,
+    "image": "assets/images/gm-diamond707.jpg"
+  },
+  {
+    "id": "bat18",
+    "name": "GM Noris Signature",
+    "category": "Bats",
+    "price": 56000,
+    "image": "assets/images/gm-noirsignature.jpg"
+  },
+  {
+    "id": "bat19",
+    "name": "GM Willow Harrow",
+    "category": "Bats",
+    "price": 57500,
+    "image": "assets/images/gm-willow-harrow.jpg"
+  },
+  {
+    "id": "bat20",
+    "name": "SF Blade",
+    "category": "Bats",
+    "price": 52000,
+    "image": "assets/images/sf-blade.jpg"
+  },
+  {
+    "id": "bat21",
+    "name": "SF Classic 1000",
+    "category": "Bats",
+    "price": 53500,
+    "image": "assets/images/sf-classic1000.jpg"
+  },
+  {
+    "id": "bat22",
+    "name": "SF Glitz",
+    "category": "Bats",
+    "price": 54000,
+    "image": "assets/images/sf-glitz.jpg"
+  },
+  {
+    "id": "bat23",
+    "name": "SS Dynasty",
+    "category": "Bats",
+    "price": 53500,
+    "image": "assets/images/ss-dynasty.jpg"
+  },
+  {
+    "id": "bat24",
+    "name": "SS GG Smacker",
+    "category": "Bats",
+    "price": 54700,
+    "image": "assets/images/ss-gg-smacker.jpg"
+  },
+  {
+    "id": "bat25",
+    "name": "SS Master 99",
+    "category": "Bats",
+    "price": 54500,
+    "image": "assets/images/ss-master99.jpg"
+  },
+  {
+    "id": "bat26",
+    "name": "SS Sky Flicker",
+    "category": "Bats",
+    "price": 58000,
+    "image": "assets/images/ss-skyflicker.jpg"
+  },
+    {
+    "id": "bat27",
+    "name": "SS Superselect",
+    "category": "Bats",
+    "price": 59000,
+    "image": "assets/images/ss-superselect.jpg"
+  },
+
+
 
   {
     "id": "ball1",  
