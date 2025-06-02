@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    ProductGridScreen(profileImage: 'assets/images/profile.jpg'),
+    ProductGridScreen(profileImage: 'assets/images/guy.jpg'),
     CategoriesScreen(), // Categories
     CartScreen(), // Cart
     PromotionsScreen(), // Promotions

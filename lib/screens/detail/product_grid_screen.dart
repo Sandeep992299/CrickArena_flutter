@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,7 +79,22 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
                       ),
                     ),
                   ),
-                  _buildProductGrid(),
+                  _buildBestSellersGrid(),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Text(
+                      "Sponsored Ads",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const AdsSection(),
+                  _buildCategoryGroup("Bats"),
+                  _buildCategoryGroup("Balls"),
+                  _buildCategoryGroup("Gear"),
                 ],
               ),
             ),
@@ -102,7 +118,6 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Welcome and profile
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -112,12 +127,11 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
               ),
               CircleAvatar(
                 radius: 30,
-                backgroundImage: AssetImage('assets/images/guy.jpg'),
+                backgroundImage: AssetImage(widget.profileImage),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          // Search Bar
           TextField(
             controller: _searchController,
             onChanged: _filterProducts,
@@ -210,19 +224,133 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
     );
   }
 
-  Widget _buildProductGrid() {
+  Widget _buildBestSellersGrid() {
+    final bestSellers = _filteredProducts.take(6).toList();
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: _filteredProducts.length,
+      itemCount: bestSellers.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 4,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemBuilder: (ctx, i) => ProductCard(product: _filteredProducts[i]),
+      itemBuilder: (ctx, i) => ProductCard(product: bestSellers[i]),
+    );
+  }
+
+  Widget _buildCategoryGroup(String category) {
+    final categoryProducts =
+        _filteredProducts
+            .where(
+              (product) =>
+                  product.category.toLowerCase() == category.toLowerCase(),
+            )
+            .toList();
+
+    if (categoryProducts.isEmpty) return const SizedBox();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: Text(
+            category,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          itemCount: categoryProducts.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 3 / 4,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemBuilder: (ctx, i) => ProductCard(product: categoryProducts[i]),
+        ),
+      ],
+    );
+  }
+}
+
+class AdsSection extends StatefulWidget {
+  const AdsSection({super.key});
+
+  @override
+  State<AdsSection> createState() => _AdsSectionState();
+}
+
+class _AdsSectionState extends State<AdsSection> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+  late Timer _timer;
+
+  final List<String> _adsImages = [
+    'assets/images/promo1.jpg',
+    'assets/images/promo2.jpg',
+    'assets/images/promo3.jpg',
+    'assets/images/promo4.jpg',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < _adsImages.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 430,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.black26, blurRadius: 6, offset: Offset(0, 3)),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: PageView.builder(
+          controller: _pageController,
+          itemCount: _adsImages.length,
+          itemBuilder: (context, index) {
+            return Image.asset(
+              _adsImages[index],
+              fit: BoxFit.cover,
+              width: double.infinity,
+            );
+          },
+        ),
+      ),
     );
   }
 }
