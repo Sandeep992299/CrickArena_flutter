@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/product.dart';
 import '../../widgets/product_card.dart';
 import '../detail/category_products_screen.dart';
@@ -20,6 +22,11 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
   List<Product> _filteredProducts = [];
   final TextEditingController _searchController = TextEditingController();
 
+  final String _productsUrl =
+      'https://raw.githubusercontent.com/Sandeep992299/CrickArena_flutter/main/assets/data/products.json';
+
+  bool _isOffline = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,16 +34,79 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
   }
 
   Future<void> _loadProducts() async {
-    final String response = await rootBundle.loadString(
-      'assets/data/products.json',
-    );
-    final List<dynamic> data = json.decode(response);
-    final loadedProducts = data.map((item) => Product.fromJson(item)).toList();
+    final connectivityResult = await Connectivity().checkConnectivity();
 
-    setState(() {
-      _products = loadedProducts;
-      _filteredProducts = loadedProducts;
-    });
+    if (connectivityResult != ConnectivityResult.none) {
+      // Online: try to fetch from the URL
+      try {
+        final response = await http.get(Uri.parse(_productsUrl));
+        if (response.statusCode == 200) {
+          final List<dynamic> data = json.decode(response.body);
+          final loadedProducts =
+              data.map((item) => Product.fromJson(item)).toList();
+
+          setState(() {
+            _products = loadedProducts;
+            _filteredProducts = loadedProducts;
+            _isOffline = false;
+          });
+
+          // Save to local storage for offline use
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('products_data', response.body);
+        } else {
+          // If server response is not 200, load offline data
+          await _loadProductsFromLocalStorage();
+        }
+      } catch (e) {
+        // On exception, load offline data
+        await _loadProductsFromLocalStorage();
+      }
+    } else {
+      // Offline: load from local storage
+      await _loadProductsFromLocalStorage();
+    }
+  }
+
+  Future<void> _loadProductsFromLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? productsJson = prefs.getString('products_data');
+
+    if (productsJson != null) {
+      final List<dynamic> data = json.decode(productsJson);
+      final loadedProducts =
+          data.map((item) => Product.fromJson(item)).toList();
+
+      setState(() {
+        _products = loadedProducts;
+        _filteredProducts = loadedProducts;
+        _isOffline = true;
+      });
+
+      // Show offline message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Offline, data loaded using local storage'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      // No local data available, show error or empty list
+      setState(() {
+        _products = [];
+        _filteredProducts = [];
+        _isOffline = true;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'No local data available. Connect to internet to load data.',
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   void _filterProducts(String query) {
@@ -327,29 +397,17 @@ class _AdsSectionState extends State<AdsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 430,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(color: Colors.black26, blurRadius: 6, offset: Offset(0, 3)),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: PageView.builder(
-          controller: _pageController,
-          itemCount: _adsImages.length,
-          itemBuilder: (context, index) {
-            return Image.asset(
-              _adsImages[index],
-              fit: BoxFit.cover,
-              width: double.infinity,
-            );
-          },
-        ),
+    return SizedBox(
+      height: 450,
+      child: PageView.builder(
+        controller: _pageController,
+        itemCount: _adsImages.length,
+        itemBuilder: (context, index) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(_adsImages[index], fit: BoxFit.cover),
+          );
+        },
       ),
     );
   }

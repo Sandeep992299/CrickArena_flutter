@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSFaceIDUsageDescription</key>
+    <string>This app uses Face ID to authenticate</string>
 	<key>CFBundleDisplayName</key>
 	<string>Crickarena</string>
 	<key>CFBundleExecutable</key>

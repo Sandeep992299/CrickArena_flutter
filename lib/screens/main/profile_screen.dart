@@ -1,5 +1,3 @@
-// ... Keep all your imports and class structure the same
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -210,17 +208,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
             : const AssetImage('assets/images/guy.jpg') as ImageProvider;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
-        backgroundColor: const Color.fromARGB(255, 229, 249, 104),
-        actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
-        ],
-      ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            Stack(
+              children: [
+                Container(
+                  height: 130,
+                  decoration: const BoxDecoration(
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(60),
+                      bottomRight: Radius.circular(60),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 50,
+                  left: 16,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                const Positioned(
+                  top: 60,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Text(
+                      'My Profile',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 50,
+                  right: 16,
+                  child: IconButton(
+                    icon: const Icon(Icons.logout),
+                    onPressed: _logout,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -310,6 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(fontSize: 18, color: Colors.black),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -323,7 +360,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     TextInputType keyboardType = TextInputType.text,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: TextField(
         controller: controller,
         enabled: enabled,

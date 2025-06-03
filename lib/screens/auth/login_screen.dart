@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:local_auth/local_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +14,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final LocalAuthentication auth = LocalAuthentication();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _login() async {
     try {
@@ -23,27 +29,21 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Login failed: ${e.toString()}')));
+      _showError('Login failed: ${e.toString()}');
     }
   }
 
   Future<void> _signInWithGoogle() async {
     try {
       if (kIsWeb) {
-        // Web sign-in using popup
         GoogleAuthProvider authProvider = GoogleAuthProvider();
         await FirebaseAuth.instance.signInWithPopup(authProvider);
       } else {
-        // Mobile sign-in using GoogleSignIn package
-        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        final googleUser = await GoogleSignIn().signIn();
         if (googleUser == null) return;
 
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
-
-        final OAuthCredential credential = GoogleAuthProvider.credential(
+        final googleAuth = await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
@@ -53,37 +53,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Google sign-in failed: ${e.toString()}")),
-      );
+      _showError("Google sign-in failed: ${e.toString()}");
     }
   }
 
-  Future<void> _signInWithFacebook() async {
+  Future<void> _authenticateBiometric() async {
     try {
-      final LoginResult result = await FacebookAuth.instance.login();
+      final isSupported = await auth.isDeviceSupported();
+      final available = await auth.getAvailableBiometrics();
 
-      if (result.status == LoginStatus.success) {
-        final AccessToken? accessToken = result.accessToken;
+      if (!isSupported || available.isEmpty) {
+        _showError("Biometric authentication not available on this device.");
+        return;
+      }
 
-        if (accessToken != null) {
-          final OAuthCredential credential = FacebookAuthProvider.credential(
-            accessToken.tokenString,
-          );
+      final didAuth = await auth.authenticate(
+        localizedReason: 'Authenticate using biometrics',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
 
-          await FirebaseAuth.instance.signInWithCredential(credential);
-          Navigator.pushReplacementNamed(context, '/home');
-        } else {
-          throw Exception("AccessToken is null");
-        }
-      } else {
-        throw Exception('Facebook login failed: ${result.message}');
+      if (didAuth) {
+        Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Facebook sign-in failed: ${e.toString()}")),
-      );
+      _showError('Biometric authentication failed: ${e.toString()}');
     }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -105,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 16, color: Colors.black87),
                 ),
                 const SizedBox(height: 20),
+
                 _buildTextField(
                   Icons.email,
                   "Email",
@@ -119,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   maxWidth,
                   isPassword: true,
                 ),
+
                 const SizedBox(height: 20),
                 SizedBox(
                   width: maxWidth,
@@ -138,6 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
                 const Divider(thickness: 1),
                 const SizedBox(height: 10),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -147,11 +153,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(width: 20),
                     _socialButton(
-                      'assets/images/facebook_icon.png',
-                      _signInWithFacebook,
+                      'assets/images/bio.png',
+                      _authenticateBiometric,
+                    ),
+                    const SizedBox(width: 20),
+                    _socialButton(
+                      'assets/images/face_id.png',
+                      _authenticateBiometric,
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 20),
                 SizedBox(
                   width: maxWidth,
@@ -169,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text('Skip', style: TextStyle(fontSize: 18)),
                   ),
                 ),
+
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
