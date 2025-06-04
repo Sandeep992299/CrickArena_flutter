@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'categories_screen.dart';
 import 'cart_screen.dart';
+import 'package:crickarena/screens/news_screen.dart';
 import 'promotions_screen.dart';
 import 'profile_screen.dart';
 import '../detail/product_grid_screen.dart'; // Assuming this shows all products
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ProductGridScreen(profileImage: 'assets/images/guy.jpg'),
     CategoriesScreen(), // Categories
     CartScreen(), // Cart
-    PromotionsScreen(), // Promotions
+    NewsScreen(), // Promotions
     ProfileScreen(), // Profile
   ];
 
@@ -49,10 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
-            label: 'Promos',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: 'News'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

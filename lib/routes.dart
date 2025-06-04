@@ -12,6 +12,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/signup': (_) => const SignUpScreen(),
   '/home': (_) => const HomeScreen(),
   '/profile': (context) => const ProfileScreen(),
+
   '/products':
       (context) =>
           const ProductGridScreen(profileImage: 'assets/images/aura.png'),
