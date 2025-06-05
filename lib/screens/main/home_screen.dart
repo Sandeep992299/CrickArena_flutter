@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'categories_screen.dart';
 import 'cart_screen.dart';
 import 'package:crickarena/screens/news_screen.dart';
-import 'promotions_screen.dart';
 import 'profile_screen.dart';
 import '../detail/product_grid_screen.dart'; // Assuming this shows all products
 

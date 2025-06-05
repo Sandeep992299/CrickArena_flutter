@@ -6,21 +6,64 @@ import '../../providers/cart_provider.dart';
 import 'payment_screen.dart';
 
 const String sendGridApiKey =
-    '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'; // Replace with your real key
+    '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'; // Replace with your real key
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   Future<void> sendInvoiceEmail(BuildContext context) async {
     final cart = Provider.of<CartProvider>(context, listen: false);
+    const shippingFee = 6000.0;
 
-    String invoice = '🧾 Invoice Details\n\n';
+    // Constructing HTML content
+    String invoiceHtml = """
+    <html>
+      <body style="font-family: Arial, sans-serif; padding: 16px; background-color: #f9f9f9;">
+        <h2 style="color: #333;">🧾 Your Invoice from CrickArena</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px;">Image</th>
+              <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px;">Product</th>
+              <th style="text-align: center; border-bottom: 1px solid #ccc; padding: 8px;">Qty</th>
+              <th style="text-align: right; border-bottom: 1px solid #ccc; padding: 8px;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+    """;
+
     cart.items.forEach((key, item) {
-      invoice +=
-          '${item.product.name} - Rs. ${item.product.price} x ${item.quantity} = Rs. ${(item.product.price * item.quantity).toStringAsFixed(2)}\n';
+      final product = item.product;
+      final total = product.price * item.quantity;
+      final imageUrl =
+          product.image.startsWith('http')
+              ? product.image
+              : 'https://via.placeholder.com/80x60?text=Image';
+
+      invoiceHtml += """
+        <tr>
+          <td style="padding: 8px;"><img src="$imageUrl" width="60" height="60" style="object-fit: cover; border-radius: 8px;"></td>
+          <td style="padding: 8px;">
+            <strong>${product.name}</strong><br>
+            <small style="color: #555;">${product.brand ?? ''}</small>
+          </td>
+          <td style="text-align: center; padding: 8px;">${item.quantity}</td>
+          <td style="text-align: right; padding: 8px;">Rs. ${total.toStringAsFixed(2)}</td>
+        </tr>
+      """;
     });
-    invoice += '\nShipping Fee: Rs. 6000.00';
-    invoice += '\nTotal: Rs. ${(cart.totalAmount + 6000).toStringAsFixed(2)}';
+
+    invoiceHtml += """
+          </tbody>
+        </table>
+        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd;">
+          <p>Shipping Fee: <strong>Rs. ${shippingFee.toStringAsFixed(2)}</strong></p>
+          <p>Total Amount: <strong style="font-size: 18px; color: #d9534f;">Rs. ${(cart.totalAmount + shippingFee).toStringAsFixed(2)}</strong></p>
+        </div>
+        <p style="margin-top: 30px;">Thank you for shopping with <strong>CrickArena</strong>! 🏏</p>
+      </body>
+    </html>
+    """;
 
     final url = Uri.parse('https://api.sendgrid.com/v3/mail/send');
     final response = await http.post(
@@ -43,7 +86,7 @@ class CartScreen extends StatelessWidget {
           "name": "CrickArena",
         },
         "content": [
-          {"type": "text/plain", "value": invoice},
+          {"type": "text/html", "value": invoiceHtml},
         ],
       }),
     );
@@ -53,7 +96,7 @@ class CartScreen extends StatelessWidget {
         const SnackBar(content: Text('✅ Invoice sent successfully')),
       );
     } else {
-      throw Exception('Email send failed');
+      throw Exception('Email send failed: ${response.body}');
     }
   }
 

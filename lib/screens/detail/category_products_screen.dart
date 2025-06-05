@@ -99,7 +99,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category),
-        backgroundColor: Colors.yellow[100],
+        backgroundColor: Colors.yellow,
         elevation: 1,
       ),
       body: Column(
