@@ -6,6 +6,7 @@ import 'app.dart';
 import 'providers/cart_provider.dart';
 import 'providers/signup_provider.dart';
 import 'providers/theme_provider.dart';
+import 'notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,9 @@ void main() async {
   } catch (e) {
     debugPrint("Firebase already initialized or error: $e");
   }
+
+  // 🔔 Initialize local notifications
+  await NotificationService().init();
 
   runApp(
     MultiProvider(

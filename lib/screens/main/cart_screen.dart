@@ -6,7 +6,7 @@ import '../../providers/cart_provider.dart';
 import 'payment_screen.dart';
 
 const String sendGridApiKey =
-    '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'; // Replace with your real key
+    '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'; // Replace with your real key
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
