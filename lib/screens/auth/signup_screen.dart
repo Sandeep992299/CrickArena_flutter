@@ -26,12 +26,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _profileImage = File(image.path);
-      });
-    }
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder:
+          (context) => SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Take a photo'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final XFile? photo = await _picker.pickImage(
+                      source: ImageSource.camera,
+                    );
+                    if (photo != null) {
+                      setState(() {
+                        _profileImage = File(photo.path);
+                      });
+                    }
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Choose from gallery'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final XFile? image = await _picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (image != null) {
+                      setState(() {
+                        _profileImage = File(image.path);
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
   }
 
   Future<String?> _uploadImageToFirebase(File image) async {

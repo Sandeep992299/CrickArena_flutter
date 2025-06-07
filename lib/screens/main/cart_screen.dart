@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import '../../providers/cart_provider.dart';
 import 'payment_screen.dart';
 
-const String sendGridApiKey =
-    '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'; // Replace with your real key
+const String sendGridApiKey = '';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -15,23 +15,113 @@ class CartScreen extends StatelessWidget {
     final cart = Provider.of<CartProvider>(context, listen: false);
     const shippingFee = 6000.0;
 
-    // Constructing HTML content
     String invoiceHtml = """
-    <html>
-      <body style="font-family: Arial, sans-serif; padding: 16px; background-color: #f9f9f9;">
-        <h2 style="color: #333;">🧾 Your Invoice from CrickArena</h2>
-        <table style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px;">Image</th>
-              <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px;">Product</th>
-              <th style="text-align: center; border-bottom: 1px solid #ccc; padding: 8px;">Qty</th>
-              <th style="text-align: right; border-bottom: 1px solid #ccc; padding: 8px;">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-    """;
+<html>
+  <head>
+    <style>
+      body {
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        padding: 20px;
+        background-color: #f2f4f6;
+        color: #333;
+      }
 
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        padding: 30px;
+      }
+
+      .header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eaeaea;
+      }
+
+      .header h1 {
+        margin: 0;
+        color: #ff5722;
+      }
+
+      .header img {
+        height: 60px;
+        margin-bottom: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th, td {
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #ccc;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f6f6f6;
+      }
+
+      .total {
+        text-align: right;
+        font-weight: bold;
+        font-size: 16px;
+        padding-top: 10px;
+      }
+
+      .footer {
+        margin-top: 30px;
+        font-size: 13px;
+        color: #777;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+      }
+
+      .highlight {
+        color: #ff5722;
+        font-weight: bold;
+      }
+
+      .thank-you {
+        font-size: 16px;
+        margin-top: 30px;
+        color: #2e7d32;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="https://github.com/Sandeep992299/CrickArena_flutter/blob/main/assets/images/CRrgan%201.png?raw=true" alt="CrickArena Logo">
+        <h1>🧾 Invoice from CrickArena</h1>
+        <p>Your one-stop cricket shop 🏏</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th style="text-align:center;">Qty</th>
+            <th style="text-align:right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+""";
+
+    // Add each item in the cart
     cart.items.forEach((key, item) {
       final product = item.product;
       final total = product.price * item.quantity;
@@ -41,29 +131,40 @@ class CartScreen extends StatelessWidget {
               : 'https://via.placeholder.com/80x60?text=Image';
 
       invoiceHtml += """
-        <tr>
-          <td style="padding: 8px;"><img src="$imageUrl" width="60" height="60" style="object-fit: cover; border-radius: 8px;"></td>
-          <td style="padding: 8px;">
-            <strong>${product.name}</strong><br>
-            <small style="color: #555;">${product.brand ?? ''}</small>
-          </td>
-          <td style="text-align: center; padding: 8px;">${item.quantity}</td>
-          <td style="text-align: right; padding: 8px;">Rs. ${total.toStringAsFixed(2)}</td>
-        </tr>
-      """;
+    <tr>
+      <td><img src="$imageUrl" width="60" height="60" style="border-radius:6px; object-fit:cover;"></td>
+      <td>
+        <strong>${product.name}</strong><br>
+        <span style="color: #555;">${product.brand ?? ''}</span>
+      </td>
+      <td style="text-align:center;">${item.quantity}</td>
+      <td style="text-align:right;">Rs. ${total.toStringAsFixed(2)}</td>
+    </tr>
+  """;
     });
 
     invoiceHtml += """
-          </tbody>
-        </table>
-        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd;">
-          <p>Shipping Fee: <strong>Rs. ${shippingFee.toStringAsFixed(2)}</strong></p>
-          <p>Total Amount: <strong style="font-size: 18px; color: #d9534f;">Rs. ${(cart.totalAmount + shippingFee).toStringAsFixed(2)}</strong></p>
-        </div>
-        <p style="margin-top: 30px;">Thank you for shopping with <strong>CrickArena</strong>! 🏏</p>
-      </body>
-    </html>
-    """;
+        </tbody>
+      </table>
+
+      <div class="total">
+        <p>Shipping Fee: Rs. ${shippingFee.toStringAsFixed(2)}</p>
+        <p>Total Amount: <span class="highlight">Rs. ${(cart.totalAmount + shippingFee).toStringAsFixed(2)}</span></p>
+      </div>
+
+      <p class="thank-you">🙏 Thank you for shopping with <strong>CrickArena</strong>!</p>
+
+      <div class="footer">
+        <p><strong>CrickArena (Pvt) Ltd</strong><br>
+        123 Cricket Avenue, Colombo 07, Sri Lanka<br>
+        Hotline: +94 77 123 4567<br>
+        Email: support@crickarena.lk</p>
+        <p>&copy; ${DateTime.now().year} CrickArena. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
+""";
 
     final url = Uri.parse('https://api.sendgrid.com/v3/mail/send');
     final response = await http.post(
@@ -212,7 +313,23 @@ class CartScreen extends StatelessWidget {
           Expanded(
             child:
                 cart.itemCount == 0
-                    ? const Center(child: Text("🛒 Your cart is empty"))
+                    ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            'assets/animations/cart.json',
+                            height: 250,
+                            width: 250,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "🛒 Your cart is empty",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    )
                     : ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount: cart.itemCount,

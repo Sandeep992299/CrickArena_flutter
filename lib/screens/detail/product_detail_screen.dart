@@ -177,7 +177,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: const Color.fromARGB(255, 224, 242, 135),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     child: const Text('Buy Now'),

@@ -247,7 +247,7 @@ class _ProductGridScreenState extends State<ProductGridScreen> {
       height: 90,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final item = categories[index];
